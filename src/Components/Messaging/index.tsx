@@ -37,6 +37,7 @@ export const Messaging = () => {
                 </Row>
             </Container>
             <Container fluid className="chat-section">
+
                 <div className="msg">
                     <div className="bubble">
                         <div className="txt">
