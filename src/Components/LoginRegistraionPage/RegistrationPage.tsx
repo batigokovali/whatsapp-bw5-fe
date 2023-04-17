@@ -8,7 +8,7 @@ import axios from "axios";
 const RegistrationPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  //   const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e: FormEvent) => {
@@ -23,7 +23,7 @@ const RegistrationPage = () => {
       localStorage.setItem("accessToken", data.accessToken);
       navigate("/layout"); //once successfully login then will directs to homepage
     } catch (error) {
-      console.log(error);
+      console.log(error); // need to create error page
     }
   };
 
