@@ -1,0 +1,169 @@
+.icon-container * {
+  width: 50px;
+  font-size: 20px;
+
+}
+
+.individual-icons {
+  height: 50px;
+  border-radius: 5px;
+}
+
+.individual-icons:hover {
+  background-color: rgb(53, 53, 53);
+}
+
+.divider {
+  height: 40px;
+  font-weight: 200;
+}
+
+.top-chat-container {
+  border-bottom: 1px solid rgb(28, 28, 28);
+}
+
+.chat-section {
+  background-image: url("https://i.redd.it/ts7vuoswhwf41.jpg");
+  height: 86vh;
+}
+
+.chat-input {
+  color: white;
+  background-color: rgb(39, 39, 39);
+  font-size: 22px;
+}
+
+.message-input {
+  background-color: transparent;
+  border: none;
+}
+
+.message-input:focus {
+  background-color: transparent;
+  color: white
+}
+
+/* For Message Bubbles */
+.msg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: hidden;
+
+  .bubble {
+    float: left;
+    max-width: 75%;
+    width: auto;
+    height: auto;
+    display: block;
+    background: rgb(54, 54, 54);
+    border-radius: 5px;
+    position: relative;
+    margin: 10px 0 3px 25px;
+    box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.2);
+
+
+    &.alt {
+      margin: 10px 25px 3px 0px;
+      background: rgb(54, 54, 54)rgb(54, 54, 54);
+      float: right;
+    }
+
+    &.follow {
+      margin: 2px 0 3px 25px;
+    }
+
+    &.altfollow {
+      margin: 2px 25px 3px 0px;
+      background: rgb(54, 54, 54);
+      float: right;
+    }
+
+    .txt {
+      padding: 8px 0 8px 0;
+      width: 100%;
+
+
+      .name {
+        font-weight: 600;
+        font-size: 14px;
+        display: inline-table;
+        padding: 0 0 0 15px;
+        margin: 0 0 4px 0;
+        color: #3498db;
+
+        span {
+          font-weight: normal;
+          color: #b3b3b3;
+          overflow: hidden;
+        }
+
+        &.alt {
+          color: #2ecc51;
+        }
+      }
+
+      .message {
+        font-size: 14px;
+        font-weight: 500;
+        padding: 0 15px 0 15px;
+        margin: auto;
+        color: white;
+        display: table;
+      }
+
+      .timestamp {
+        font-size: 11px;
+        margin: auto;
+        padding: 0 15px 0 0;
+        display: table;
+        float: right;
+        position: relative;
+        text-transform: uppercase;
+        color: #999
+      }
+    }
+
+    .bubble-arrow {
+      position: absolute;
+      float: left;
+      left: -11px;
+      top: 0px;
+
+      &.alt {
+        bottom: 20px;
+        left: auto;
+        right: 4px;
+        float: right;
+      }
+    }
+
+    .bubble-arrow:after {
+      content: "";
+      position: absolute;
+      border-top: 15px solid rgb(54, 54, 54);
+      border-left: 15px solid transparent;
+      border-radius: 4px 0 0 0px;
+      width: 0;
+      height: 0;
+
+    }
+
+    .bubble-arrow.alt:after {
+      border-top: 15px solid rgb(54, 54, 54);
+      transform: scaleX(-1);
+    }
+  }
+}
+
+@media only screen and (max-width: 450px) {
+
+  .container {
+    width: 100%;
+  }
+
+  .timestamp {
+    display: none;
+    color: red;
+  }
+}
