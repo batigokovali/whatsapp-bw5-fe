@@ -1,0 +1,36 @@
+.icon-container * {
+    width: 50px;
+    font-size: 20px;
+    
+}
+
+.individual-icons {
+    height: 50px;
+    border-radius: 5px;
+}
+
+.individual-icons:hover {
+    background-color: rgb(53, 53, 53);
+}
+
+.divider {
+    height: 40px;
+    font-weight: 200;
+}
+
+.top-chat-container {
+    border-bottom: 1px solid rgb(28, 28, 28);
+}
+
+.chat-section {
+background-image: url("https://i.redd.it/ts7vuoswhwf41.jpg");
+height: 91vh;
+position: relative;
+}
+
+.chat-input {
+    position:absolute;
+    top:10px;
+    width: 800px;
+    color: white;
+}

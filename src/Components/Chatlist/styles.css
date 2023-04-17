@@ -1,0 +1,25 @@
+body {
+    color: white;
+}
+
+.user-avatar {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.search-bar {
+    background-color: rgb(57, 57, 57);
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    color: white;
+}
+
+.search-bar:focus {
+    background-color:rgb(33, 33, 33);
+    border-color: rgb(70, 165, 131);
+    color: white;
+    outline: none;
+}

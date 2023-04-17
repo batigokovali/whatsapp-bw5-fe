@@ -3,15 +3,21 @@ body {
 }
 
 .chatlist {
-    background-color: red;
+    height: 100vh;
+    width: 400px;
 }
 
 .messaging {
     background-color: blue;
+    height: 100vh;
 }
 
 
 .layout {
     height: 100vh;
     width: 100vw;
+}
+
+.messages-container {
+    border-left: 1px solid rgb(28, 28, 28);
 }
