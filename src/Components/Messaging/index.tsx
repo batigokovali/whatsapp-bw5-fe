@@ -1,4 +1,4 @@
-import "./styles.css"
+import "./styles.scss"
 import { Container, Row, Col } from "react-bootstrap"
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -36,19 +36,46 @@ export const Messaging = () => {
                     </Col>
                 </Row>
             </Container>
-            <Container className="chat-section">
+            <Container fluid className="chat-section">
+                <div className="msg">
+                    <div className="bubble">
+                        <div className="txt">
+                            <span className="name">Batı</span>
+                            <span className="timestamp">10:20 pm</span>
+                            <span className="message">
+                                Who's your friend?
+                            </span>
+
+                        </div>
+                        <div className="bubble-arrow"></div>
+                    </div>
+                </div>
+                <div className="msg">
+                    <div className="bubble alt">
+                        <div className="txt">
+                            <span className="name alt">Mantas
+                            </span>
+                            <span className="timestamp">10:22 pm</span>
+                            <p className="message">ChatGPT 🍻</p>
+                        </div>
+                        <div className="bubble-arrow alt"></div>
+                    </div>
+                </div>
+            </Container>
+            <Container fluid className="chat-input px-0 pt-1">
                 <div className="chat-input d-flex justify-content-center align-items-center">
-                    <VscSmiley />
-                    <ImAttachment />
+                    <VscSmiley className="mx-3" />
+                    <ImAttachment className="mx-3" />
                     <InputGroup >
 
                         <Form.Control
                             placeholder="Type a message"
                             aria-label="Username"
                             aria-describedby="basic-addon1"
+                            className="message-input"
                         />
                     </InputGroup>
-                    <HiOutlineMicrophone />
+                    <HiOutlineMicrophone className="mx-4" />
                 </div>
             </Container>
         </>
