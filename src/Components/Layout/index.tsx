@@ -6,11 +6,11 @@ export const Layout = () => {
     return (
         <Container className="layout">
             <Row>
-                <Col>
+                <Col xs={4} md={4} lg={4} className="p-0">
                     <div className="chatlist">asd</div>
                 </Col>
-                <Col>
-                    <div className="chatlist"></div>
+                <Col className="p-0">
+                    <div className="messaging">kek</div>
                 </Col>
             </Row>
         </Container>
