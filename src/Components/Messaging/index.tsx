@@ -6,7 +6,7 @@ import { BsCameraVideo, BsTelephone, BsSearch } from "react-icons/bs"
 import { RxDividerVertical } from "react-icons/rx"
 import { VscSmiley } from "react-icons/vsc"
 import { ImAttachment } from "react-icons/im"
-import { HiOutlineMicrophone } from "react-icons/hi"
+import { AiOutlineSend } from "react-icons/ai"
 
 export const Messaging = () => {
     return (
@@ -76,7 +76,7 @@ export const Messaging = () => {
                             className="message-input"
                         />
                     </InputGroup>
-                    <HiOutlineMicrophone className="mx-4" />
+                    <AiOutlineSend className="mx-4" />
                 </div>
             </Container>
         </>
