@@ -28,6 +28,7 @@ const LoginPage = () => {
           }
         });
       const { data } = response as AxiosResponse;
+      console.log(data);
       localStorage.setItem("accessToken", data.accessToken);
       navigate("/app"); //once successfully login then will directs to homepage
     } catch (error) {

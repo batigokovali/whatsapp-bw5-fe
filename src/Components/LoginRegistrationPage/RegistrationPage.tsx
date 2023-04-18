@@ -77,7 +77,7 @@ const RegistrationPage = () => {
                   Register
                 </Button>
                 <Link
-                  to={"/register"}
+                  to={"/"}
                   className="btn btn-secondary"
                   style={{ width: "49%" }}
                 >
