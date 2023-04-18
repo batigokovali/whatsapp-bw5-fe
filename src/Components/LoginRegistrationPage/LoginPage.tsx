@@ -1,9 +1,9 @@
-import axios from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { FormEvent, useState } from "react";
 import { Button, Form, Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -14,13 +14,20 @@ const LoginPage = () => {
   const handleSubmit = async (e: FormEvent) => {
     try {
       e.preventDefault();
-      const { data } = await axios.post("http://localhost:3001/users/session", {
-        //need to move the endpoint to .env
-        email,
-        password,
-      });
-      toast("Login successful! 💪", { autoClose: 1000 });
-      console.log(data);
+      const response = await axios
+        .post("http://localhost:3001/users/session", {
+          //need to move the endpoint to .env
+          email,
+          password,
+        })
+        .catch((err: Error | AxiosError) => {
+          if (axios.isAxiosError(err)) {
+            // Access to config, request, and response
+          } else {
+            // Just a stock error
+          }
+        });
+      const { data } = response as AxiosResponse;
       localStorage.setItem("accessToken", data.accessToken);
       navigate("/app"); //once successfully login then will directs to homepage
     } catch (error) {

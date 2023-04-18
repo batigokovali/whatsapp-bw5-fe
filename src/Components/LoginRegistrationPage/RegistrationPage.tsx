@@ -2,7 +2,7 @@ import { FormEvent, useState } from "react";
 import { Button, Form, Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import axios from "axios";
 
 const RegistrationPage = () => {
@@ -21,7 +21,7 @@ const RegistrationPage = () => {
         email,
         password,
       });
-      toast("Register successful! 💪", { autoClose: 1000 });
+      // toast("Register successful! 💪", { autoClose: 1000 });
       localStorage.setItem("accessToken", data.accessToken);
       console.log(data);
       navigate("/app"); //once successfully login then will directs to homepage
