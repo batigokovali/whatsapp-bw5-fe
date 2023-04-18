@@ -75,3 +75,7 @@ export const StoreSlice = createSlice({
         },
     }
 })
+
+export default StoreSlice.reducer;
+export const { setUserInfo, setChats, setActiveChat, setHistory, newMessage } =
+  StoreSlice.actions;
