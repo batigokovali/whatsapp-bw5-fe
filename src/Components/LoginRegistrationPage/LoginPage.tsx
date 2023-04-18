@@ -38,8 +38,8 @@ const LoginPage = () => {
 
   return (
     <>
-      <Container>
-        <Row className="justify-content-center my-5">
+      <Container style={{ height: "100vh" }}>
+        <Row className="justify-content-center align-items-center h-100">
           <Col col="9" md="6">
             <img
               src="https://img.icons8.com/clouds/512/whatsapp.png"
