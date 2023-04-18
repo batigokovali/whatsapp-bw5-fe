@@ -7,8 +7,46 @@ import { RxDividerVertical } from "react-icons/rx"
 import { VscSmiley } from "react-icons/vsc"
 import { ImAttachment } from "react-icons/im"
 import { AiOutlineSend } from "react-icons/ai"
+import React, { useRef, useState, useEffect } from "react";
+import { useAppDispatch } from "../../store/store";
+import { Message, User, newMessage } from "../../store/features/storeSlice";
+import { io } from 'socket.io-client'
+
+const socket = io("http://localhost:3001", { transports: ['websocket'] })
 
 export const Messaging = () => {
+
+    const messageText = useRef<string>("");
+    const [username, setUsername] = useState("")
+    const [message, setMessage] = useState("")
+    const [onlineUsers, setOnlineUsers] = useState<User[]>([])
+    const [loggedIn, setLoggedIn] = useState(false)
+    const [chatHistory, setChatHistory] = useState<Message[]>([])
+
+    const [userID, setUserID] = useState("")
+    const [currentID, setCurrentID] = useState("")
+
+    useEffect(() => {
+        socket.on("welcome", welcomeMessage => {
+            console.log(welcomeMessage)
+            setCurrentID(welcomeMessage.message)
+
+            socket.on("loggedIn", onlineUsersList => {
+                console.log(onlineUsersList)
+                setOnlineUsers(onlineUsersList)
+                setLoggedIn(true)
+                setUserID(onlineUsersList[onlineUsersList.length - 1].socketId)
+            })
+            socket.on("updateOnlineUsersList", updatedList => {
+                setOnlineUsers(updatedList)
+            })
+            socket.on("newMessage", newMessage => {
+                console.log(newMessage)
+                setChatHistory((chatHistory) => [...chatHistory, newMessage.message])
+            })
+        })
+    }, [])
+
     return (
         <>
             <Container fluid >
@@ -18,7 +56,6 @@ export const Messaging = () => {
                             <img src="https://www.rollingstone.com/wp-content/uploads/2018/06/rs-15595-20140611-vanhalen-x1800-1402517089.jpg?resize=1800,1200&w=1800" alt="" className="chat-avatar" />
                         </div>
                         <p className="chat-title mx-3 my-0">Name of the chat person :D</p>
-
                     </Col>
                     <Col className="d-flex justify-content-end align-items-center icon-container">
                         <div className="individual-icons d-flex align-items-center">
@@ -36,8 +73,8 @@ export const Messaging = () => {
                     </Col>
                 </Row>
             </Container>
+            {/* Messages*/}
             <Container fluid className="chat-section">
-
                 <div className="msg">
                     <div className="bubble">
                         <div className="txt">
@@ -46,7 +83,6 @@ export const Messaging = () => {
                             <span className="message">
                                 Who's your friend?
                             </span>
-
                         </div>
                         <div className="bubble-arrow"></div>
                     </div>
@@ -63,17 +99,18 @@ export const Messaging = () => {
                     </div>
                 </div>
             </Container>
+            {/* Messages*/}
             <Container fluid className="chat-input px-0 pt-1">
                 <div className="chat-input d-flex justify-content-center align-items-center">
                     <VscSmiley className="mx-3" />
                     <ImAttachment className="mx-3" />
                     <InputGroup >
-
                         <Form.Control
                             placeholder="Type a message"
                             aria-label="Username"
                             aria-describedby="basic-addon1"
                             className="message-input"
+                            onChange={(e) => (messageText.current = e.target.value)}
                         />
                     </InputGroup>
                     <AiOutlineSend className="mx-4" />

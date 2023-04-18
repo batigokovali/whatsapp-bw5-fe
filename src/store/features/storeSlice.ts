@@ -11,7 +11,7 @@ export interface User {
 export interface Message {
     sender: User;
     content: {
-        text: string;
+        text?: string;
         media?: string;
     };
     timestamp: number;
@@ -50,7 +50,7 @@ export const initialState: Store = {
     }
 }
 
-export const StoreSlice = createSlice({
+export const StoreSlice: any = createSlice({
     name: "store",
     initialState,
     reducers: {
@@ -78,4 +78,4 @@ export const StoreSlice = createSlice({
 
 export default StoreSlice.reducer;
 export const { setUserInfo, setChats, setActiveChat, setHistory, newMessage } =
-  StoreSlice.actions;
+    StoreSlice.actions;

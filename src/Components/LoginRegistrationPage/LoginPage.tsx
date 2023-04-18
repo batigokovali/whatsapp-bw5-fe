@@ -21,7 +21,7 @@ const LoginPage = () => {
       });
       toast("Login successful! 💪", { autoClose: 1000 });
       localStorage.setItem("accessToken", data.accessToken);
-      navigate("/layout"); //once successfully login then will directs to homepage
+      navigate("/app"); //once successfully login then will directs to homepage
     } catch (error) {
       console.log(error);
     }
