@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 
 export interface User {
@@ -50,7 +50,32 @@ export const initialState: Store = {
     }
 }
 
-export const StoreSlice: any = createSlice({
+
+
+export const fetchUsers = createAsyncThunk("user/fetch", async (thunkAPI) => {
+
+    const response = await fetch("http://localhost:3001", {
+        method: "GET"
+    });
+    const data = response.json();
+    return data;
+})
+
+export const sendMessage = createAsyncThunk("user/save", async (message: object, thunkAPI) => {
+    const response = await fetch("http://localhost:3001", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            message
+        })
+    })
+    const data = await response.json();
+    return data;
+})
+
+export const StoreSlice = createSlice({
     name: "store",
     initialState,
     reducers: {
@@ -73,6 +98,15 @@ export const StoreSlice: any = createSlice({
             const chat = state.chats.list.find((chat) => chat.chatId === action.payload.chatId);
             chat?.history.push(action.payload.message); //appends the message to the history of the chat with _id equal to chatId
         },
+    },
+    extraReducers: (builder) => {
+        builder.addCase(fetchUsers.fulfilled, (state, action) => {
+            state.chats = action.payload;
+            state.userInfo = action.payload;
+        })
+        builder.addCase(sendMessage.fulfilled, (state, action) => {
+            state.chats.list.push(action.payload)
+        })
     }
 })
 
