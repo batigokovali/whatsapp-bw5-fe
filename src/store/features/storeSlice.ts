@@ -50,29 +50,35 @@ export const initialState: Store = {
     }
 }
 
-
-
 export const fetchUsers = createAsyncThunk("user/fetch", async (thunkAPI) => {
-
-    const response = await fetch("http://localhost:3001", {
-        method: "GET"
-    });
-    const data = response.json();
-    return data;
+    try {
+        const response = await fetch("http://localhost:3001", {
+            method: "GET"
+        });
+        const data = response.json();
+        return data;
+    } catch (error) {
+        console.log(error)
+    }
 })
 
 export const sendMessage = createAsyncThunk("user/save", async (message: object, thunkAPI) => {
-    const response = await fetch("http://localhost:3001", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            message
+    try {
+        const response = await fetch("http://localhost:3001", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                message
+            })
         })
-    })
-    const data = await response.json();
-    return data;
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.log(error)
+    }
+
 })
 
 export const StoreSlice = createSlice({
