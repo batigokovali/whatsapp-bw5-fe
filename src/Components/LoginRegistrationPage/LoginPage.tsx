@@ -43,7 +43,7 @@ const LoginPage = () => {
             <h2> Welcome to FakesApp!! </h2>
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>Email address / Username</Form.Label>
+                <Form.Label>Email address</Form.Label>
                 <Form.Control
                   type="email"
                   placeholder="Enter email"
@@ -63,14 +63,14 @@ const LoginPage = () => {
                 <Button
                   variant="primary"
                   type="submit"
-                  style={{ width: "47%" }}
+                  style={{ width: "49%" }}
                 >
                   Login
                 </Button>
                 <Link
                   to={"/register"}
                   className="btn btn-secondary"
-                  style={{ width: "47%" }}
+                  style={{ width: "49%" }}
                 >
                   Sign Up
                 </Link>
@@ -85,6 +85,7 @@ const LoginPage = () => {
                   backgroundColor: "#55acee",
                   color: "#fff",
                   fontSize: "1.2rem",
+                  fontWeight: "600",
                 }}
               >
                 <svg

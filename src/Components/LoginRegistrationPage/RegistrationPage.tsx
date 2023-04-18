@@ -8,20 +8,23 @@ import axios from "axios";
 const RegistrationPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   //   const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e: FormEvent) => {
     try {
       e.preventDefault();
-      const { data } = await axios.post("http://localhost:3001/login", {
+      const { data } = await axios.post("http://localhost:3001/users/account", {
         //need to move the endpoint to .env
+        name,
         email,
         password,
       });
       toast("Register successful! 💪", { autoClose: 1000 });
       localStorage.setItem("accessToken", data.accessToken);
-      navigate("/layout"); //once successfully login then will directs to homepage
+      console.log(data);
+      navigate("/app"); //once successfully login then will directs to homepage
     } catch (error) {
       console.log(error); // need to create error page
     }
@@ -35,12 +38,20 @@ const RegistrationPage = () => {
             <img
               src="https://img.icons8.com/clouds/512/whatsapp.png"
               className="img-fluid"
-              alt="Phone image"
+              alt="Phone"
             />
           </Col>
           <Col md={5}>
             <h2> Register on FakesApp!! </h2>
-            <Form onSubmit={(e) => handleSubmit(e)}>
+            <Form onSubmit={handleSubmit}>
+              <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Label>Full Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter your full name"
+                  onChange={(val) => setName(val.currentTarget.value)}
+                />
+              </Form.Group>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Email address</Form.Label>
                 <Form.Control
@@ -48,11 +59,7 @@ const RegistrationPage = () => {
                   placeholder="Enter email"
                   onChange={(val) => setEmail(val.currentTarget.value)}
                 />
-                <Form.Text className="text-muted">
-                  We'll never share your email with anyone else.
-                </Form.Text>
               </Form.Group>
-
               <Form.Group className="mb-3" controlId="formBasicPassword">
                 <Form.Label>Password</Form.Label>
                 <Form.Control
@@ -61,14 +68,22 @@ const RegistrationPage = () => {
                   onChange={(val) => setPassword(val.currentTarget.value)}
                 />
               </Form.Group>
-              <Button variant="primary" type="submit">
-                Register
-              </Button>
-              <Link to={"/"}>
-                <Button variant="secondary" type="submit" className="mx-2">
-                  Back
+              <div className="d-flex justify-content-between">
+                <Button
+                  variant="primary"
+                  type="submit"
+                  style={{ width: "49%" }}
+                >
+                  Register
                 </Button>
-              </Link>
+                <Link
+                  to={"/register"}
+                  className="btn btn-secondary"
+                  style={{ width: "49%" }}
+                >
+                  Back
+                </Link>
+              </div>
             </Form>
           </Col>
         </Row>
