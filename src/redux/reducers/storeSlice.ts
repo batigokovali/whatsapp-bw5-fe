@@ -35,7 +35,8 @@ export interface Store {
     chats: {
         active: string // the _id of one of the chats among store.chats.list	
         list: Chat[]
-    }
+    },
+    users: User[];
 }
 
 // createSlice/reducers
@@ -50,11 +51,9 @@ export const initialState: Store = {
     chats: {
         active: "",
         list: [],
-    }
+    },
+    users: []
 }
-
-
-
 
 export const StoreSlice = createSlice({
     name: "store",
@@ -65,6 +64,9 @@ export const StoreSlice = createSlice({
         },
         setChats: (state, action: PayloadAction<Chat[]>) => {
             state.chats.list = action.payload; //sets the previous conversations in the store
+        },
+        setUsers: (state, action: PayloadAction<User[]>) => {
+            state.users = action.payload; //sets the users in the chat
         },
         setActiveChat: (state, action: PayloadAction<string>) => {
             state.chats.active = action.payload; //updates the current active chat in the main chat component, which supposedly has a React.useEffect listening to this change and reacting accordingly.
@@ -80,13 +82,13 @@ export const StoreSlice = createSlice({
             chat?.history.push(action.payload.message); //appends the message to the history of the chat with _id equal to chatId
         },
     },
-    extraReducers:(builder)=>{
-        builder.addCase(fetchUsers.fulfilled,(state,action)=>{
-            state.chats=action.payload;
-            state.userInfo=action.payload;
-        })
-        builder.addCase(sendMessage.fulfilled,(state,action)=>{
-            state.chats.list.push(action.payload)
-        })
-    }
+    // extraReducers:(builder)=>{
+    //     builder.addCase(fetchUsers.fulfilled,(state,action)=>{
+    //         state.chats=action.payload;
+    //         state.userInfo=action.payload;
+    //     })
+    //     builder.addCase(sendMessage.fulfilled,(state,action)=>{
+    //         state.chats.list.push(action.payload)
+    //     })
+    // }
 })

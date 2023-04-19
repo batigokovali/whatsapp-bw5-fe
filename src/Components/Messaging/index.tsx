@@ -14,6 +14,7 @@ export const Messaging = () => {
     <>
       <Container fluid>
         <Row className="d-flex justify-content-between top-chat-container pb-3">
+          {/* User or group info */}
           <Col className="d-flex justify-content-start">
             <div className="chat-avatar-container mr-3">
               <img
@@ -24,6 +25,7 @@ export const Messaging = () => {
             </div>
             <p className="chat-title mx-3 my-0">Name of the chat person :D</p>
           </Col>
+          {/* User or group info */}
           <Col className="d-flex justify-content-end align-items-center icon-container">
             <div className="individual-icons d-flex align-items-center">
               <BsCameraVideo />
