@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Button, Form, Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -29,6 +29,10 @@ const RegistrationPage = () => {
       console.log(error); // need to create error page
     }
   };
+
+  useEffect(() => {
+    document.title = "Whatsapp | Register";
+  }, []);
 
   return (
     <>
