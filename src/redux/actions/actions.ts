@@ -4,10 +4,12 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 export const fetchUsers = createAsyncThunk("user/fetchUserData",async(thunkAPI)=>{
     try {
         
-        const response = await fetch("http://localhost:3001",{
-            method:"GET"
+        const response = await fetch("http://localhost:3001/users",{
+            headers: {Authorization: `Bearer ${localStorage.getItem("accessToken")}`}
+
         });
         const data=response.json();
+        console.log(data)
         return data;   
     } catch (error) {
         console.log(error)

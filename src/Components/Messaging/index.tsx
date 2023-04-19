@@ -7,6 +7,7 @@ import { RxDividerVertical } from "react-icons/rx";
 import { VscSmiley } from "react-icons/vsc";
 import { ImAttachment } from "react-icons/im";
 import { AiOutlineSend } from "react-icons/ai";
+<<<<<<< Updated upstream
 import React, { useRef, useState, useEffect } from "react";
 // import { useAppDispatch } from "../../store/store";
 // import { Message, User, newMessage } from "../../store/features/storeSlice";
@@ -46,6 +47,19 @@ export const Messaging = () => {
   //     });
   //   }, []);
 
+=======
+import { fetchUsers } from "../../redux/actions/actions";
+import React, { useEffect } from "react";
+import { useAppDispatch } from "../../redux/hooks/hooks";
+
+export const Messaging = () => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchUsers);
+  }, []);
+
+>>>>>>> Stashed changes
   return (
     <>
       <Container fluid>
@@ -76,7 +90,10 @@ export const Messaging = () => {
           </Col>
         </Row>
       </Container>
+<<<<<<< Updated upstream
       {/* Messages*/}
+=======
+>>>>>>> Stashed changes
       <Container fluid className="chat-section">
         <div className="msg">
           <div className="bubble">
@@ -99,7 +116,10 @@ export const Messaging = () => {
           </div>
         </div>
       </Container>
+<<<<<<< Updated upstream
       {/* Messages*/}
+=======
+>>>>>>> Stashed changes
       <Container fluid className="chat-input px-0 pt-1">
         <div className="chat-input d-flex justify-content-center align-items-center">
           <VscSmiley className="mx-3" />
@@ -110,7 +130,10 @@ export const Messaging = () => {
               aria-label="Username"
               aria-describedby="basic-addon1"
               className="message-input"
+<<<<<<< Updated upstream
               onChange={(e) => (messageText.current = e.target.value)}
+=======
+>>>>>>> Stashed changes
             />
           </InputGroup>
           <AiOutlineSend className="mx-4" />

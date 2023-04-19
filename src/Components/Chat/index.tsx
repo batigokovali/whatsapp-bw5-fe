@@ -1,10 +1,7 @@
 import { Row, Col } from "react-bootstrap";
 import "./styles.css";
-import { useAppDispatch } from "../../redux/store";
 
 export const Chat = () => {
-  const dispatch = useAppDispatch;
-
   return (
     <Row
     // onClick={() => dispatch(fetchUsers())}
