@@ -1,18 +1,27 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { useAppDispatch } from "../../redux/hooks/hooks";
+import { Dispatch } from "redux";
+import { StoreSlice } from "../reducers/storeSlice";
 
-//createAsyncThunk = three parameters: a string action type value, a payloadCreator callback, and an options object.
-export const fetchUsers = createAsyncThunk("user/fetchUserData",async(thunkAPI)=>{
-    try {
+export const fetchUsers = () => {
+    return async (dispatch: Dispatch) => {
+            try {
         
-        const response = await fetch("http://localhost:3001",{
-            method:"GET"
+        const response = await fetch("http://localhost:3001/users",{
+            headers: {Authorization: `Bearer ${localStorage.getItem("accessToken")}`}
+
         });
-        const data=response.json();
+        const data=await response.json();
+        dispatch({
+            type: StoreSlice.actions.setUsers,
+            payload: data,
+        })
         return data;   
     } catch (error) {
         console.log(error)
     }
-})
+    }
+}
 
 export const sendMessage = createAsyncThunk("user/save", async (message:object,thunkAPI)=>{
     try {
