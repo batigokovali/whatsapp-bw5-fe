@@ -7,59 +7,9 @@ import { RxDividerVertical } from "react-icons/rx";
 import { VscSmiley } from "react-icons/vsc";
 import { ImAttachment } from "react-icons/im";
 import { AiOutlineSend } from "react-icons/ai";
-<<<<<<< Updated upstream
 import React, { useRef, useState, useEffect } from "react";
-// import { useAppDispatch } from "../../store/store";
-// import { Message, User, newMessage } from "../../store/features/storeSlice";
-import { io } from "socket.io-client";
-
-const socket = io("http://localhost:3001", { transports: ["websocket"] });
 
 export const Messaging = () => {
-  const messageText = useRef<string>("");
-  const [username, setUsername] = useState("");
-  const [message, setMessage] = useState("");
-  //   const [onlineUsers, setOnlineUsers] = useState<User[]>([]);
-  const [loggedIn, setLoggedIn] = useState(false);
-  //   const [chatHistory, setChatHistory] = useState<Message[]>([]);
-
-  const [userID, setUserID] = useState("");
-  const [currentID, setCurrentID] = useState("");
-
-  //   useEffect(() => {
-  //     socket.on("welcome", (welcomeMessage) => {
-  //       console.log(welcomeMessage);
-  //       setCurrentID(welcomeMessage.message);
-
-  //       socket.on("loggedIn", (onlineUsersList) => {
-  //         console.log(onlineUsersList);
-  //         setOnlineUsers(onlineUsersList);
-  //         setLoggedIn(true);
-  //         setUserID(onlineUsersList[onlineUsersList.length - 1].socketId);
-  //       });
-  //       socket.on("updateOnlineUsersList", (updatedList) => {
-  //         setOnlineUsers(updatedList);
-  //       });
-  //       socket.on("newMessage", (newMessage) => {
-  //         console.log(newMessage);
-  //         setChatHistory((chatHistory) => [...chatHistory, newMessage.message]);
-  //       });
-  //     });
-  //   }, []);
-
-=======
-import { fetchUsers } from "../../redux/actions/actions";
-import React, { useEffect } from "react";
-import { useAppDispatch } from "../../redux/hooks/hooks";
-
-export const Messaging = () => {
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(fetchUsers);
-  }, []);
-
->>>>>>> Stashed changes
   return (
     <>
       <Container fluid>
@@ -90,10 +40,7 @@ export const Messaging = () => {
           </Col>
         </Row>
       </Container>
-<<<<<<< Updated upstream
       {/* Messages*/}
-=======
->>>>>>> Stashed changes
       <Container fluid className="chat-section">
         <div className="msg">
           <div className="bubble">
@@ -116,10 +63,7 @@ export const Messaging = () => {
           </div>
         </div>
       </Container>
-<<<<<<< Updated upstream
       {/* Messages*/}
-=======
->>>>>>> Stashed changes
       <Container fluid className="chat-input px-0 pt-1">
         <div className="chat-input d-flex justify-content-center align-items-center">
           <VscSmiley className="mx-3" />
@@ -130,10 +74,6 @@ export const Messaging = () => {
               aria-label="Username"
               aria-describedby="basic-addon1"
               className="message-input"
-<<<<<<< Updated upstream
-              onChange={(e) => (messageText.current = e.target.value)}
-=======
->>>>>>> Stashed changes
             />
           </InputGroup>
           <AiOutlineSend className="mx-4" />
