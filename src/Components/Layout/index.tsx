@@ -3,9 +3,39 @@ import "./styles.css"
 
 import { Chatlist } from "../Chatlist";
 import { Messaging } from "../Messaging";
-
-
+import { useEffect } from "react";
+import { io } from "socket.io-client";
+import { disconnect } from "process";
 export const Layout = () => {
+
+    const socket = io("http://localhost:3001", { transports: ['websocket'] }) 
+    const setUser = (token: string) => {
+        socket.emit("setUser", { token });
+        console.log(token)
+      };
+
+    useEffect(() => {
+
+        socket.emit("userConnected", () => {
+            const token = localStorage.getItem("accessToken");
+            if (token) {
+              setUser(token);
+            }
+          });
+        socket.on("userConnected", () => {
+          console.log("Connected to socket");
+        });
+    
+       
+    
+        socket.on("disconnect", () => {
+          console.log("Disconnected from socket");
+        });
+    
+        return () => {
+          socket.disconnect();
+        };
+      }, []);
     return (
         <Container fluid className="layout">
             <Row>
