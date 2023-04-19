@@ -56,3 +56,4 @@ export const fetchHistory = createAsyncThunk("user/fetchHistory",async(chatId:st
         console.log(error)
     }
 })
+
