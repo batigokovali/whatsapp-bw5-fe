@@ -1,6 +1,7 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { fetchUsers, sendMessage } from "../actions/actions"
 
-
+//interfaces
 export interface User {
     _id: string
     name: string
@@ -37,6 +38,8 @@ export interface Store {
     }
 }
 
+// createSlice/reducers
+
 export const initialState: Store = {
     userInfo: {
         _id: "",
@@ -50,28 +53,8 @@ export const initialState: Store = {
     }
 }
 
-export const fetchUsers = createAsyncThunk("user/fetch",async(thunkAPI)=>{
 
-    const response = await fetch("http://localhost:3001",{
-        method:"GET"
-    });
-    const data=response.json();
-    return data;   
-})
 
-export const sendMessage = createAsyncThunk("user/save", async (message:object,thunkAPI)=>{
-    const response = await fetch("http://localhost:3001",{
-        method:"POST",
-        headers:{
-            "Content-Type":"application/json"
-        },
-        body:JSON.stringify({
-            message
-        })
-    })
-    const data=await response.json();
-    return data;
-})
 
 export const StoreSlice = createSlice({
     name: "store",
