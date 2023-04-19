@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Button, Form, Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -14,27 +14,36 @@ const LoginPage = () => {
   const handleSubmit = async (e: FormEvent) => {
     try {
       e.preventDefault();
-      const response = await axios
+      await axios
         .post("http://localhost:3001/users/session", {
           //need to move the endpoint to .env
           email,
           password,
         })
+        .then((response) => {
+          const { data } = response as AxiosResponse;
+          console.log(data);
+          localStorage.setItem("accessToken", data.accessToken);
+          navigate("/app");
+        })
         .catch((err: Error | AxiosError) => {
           if (axios.isAxiosError(err)) {
-            // Access to config, request, and response
+            console.log(err.config);
+            console.log(err.request);
+            console.log(err.response);
           } else {
-            // Just a stock error
+            console.log(err.message);
           }
         });
-      const { data } = response as AxiosResponse;
-      console.log(data);
-      localStorage.setItem("accessToken", data.accessToken);
-      navigate("/app"); //once successfully login then will directs to homepage
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    document.title = "Whatsapp | Login";
+    localStorage.clear();
+  }, []);
 
   return (
     <>
