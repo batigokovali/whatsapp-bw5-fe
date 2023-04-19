@@ -1,11 +1,11 @@
 import { Container, Row, Col } from "react-bootstrap";
 import "./styles.css";
-
 import { Chatlist } from "../Chatlist";
 import { Messaging } from "../Messaging";
 import { useEffect } from "react";
 import { io } from "socket.io-client";
 import { disconnect } from "process";
+
 export const Layout = () => {
   const socket = io("http://localhost:3001", { transports: ["websocket"] });
 
