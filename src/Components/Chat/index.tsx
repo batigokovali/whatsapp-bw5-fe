@@ -16,8 +16,8 @@ export const Chat = () => {
   console.log(users);
   return (
     <>
-      {users.map((user) => (
-        <Row key={user._id} className="mb-2">
+      {users?.map((user) => (
+        <Row key={user._id} className="mb-2 chat-row w-100">
           <Col
             xs={3}
             md={3}
@@ -31,7 +31,7 @@ export const Chat = () => {
               <p className="chat-title mb-0">{user.name}</p>
             </Row>
             <Row>
-              <p className="chat-message mb-0"></p>
+              <p className="chat-message mb-0">{user.email}</p>
             </Row>
           </Col>
         </Row>

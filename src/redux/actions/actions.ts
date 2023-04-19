@@ -12,7 +12,6 @@ export const fetchUsers = () => {
 
         });
         const data=await response.json();
-        console.log(data)
         dispatch({
             type: StoreSlice.actions.setUsers,
             payload: data,
