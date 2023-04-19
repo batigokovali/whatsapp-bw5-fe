@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { fetchUsers, sendMessage } from "../actions/actions"
 
-
+//interfaces
 export interface User {
     _id: string
     name: string
@@ -37,6 +38,8 @@ export interface Store {
     }
 }
 
+// createSlice/reducers
+
 export const initialState: Store = {
     userInfo: {
         _id: "",
@@ -49,6 +52,9 @@ export const initialState: Store = {
         list: [],
     }
 }
+
+
+
 
 export const StoreSlice = createSlice({
     name: "store",
@@ -73,6 +79,15 @@ export const StoreSlice = createSlice({
             const chat = state.chats.list.find((chat) => chat.chatId === action.payload.chatId);
             chat?.history.push(action.payload.message); //appends the message to the history of the chat with _id equal to chatId
         },
+    },
+    extraReducers:(builder)=>{
+        builder.addCase(fetchUsers.fulfilled,(state,action)=>{
+            state.chats=action.payload;
+            state.userInfo=action.payload;
+        })
+        builder.addCase(sendMessage.fulfilled,(state,action)=>{
+            state.chats.list.push(action.payload)
+        })
     }
 })
 

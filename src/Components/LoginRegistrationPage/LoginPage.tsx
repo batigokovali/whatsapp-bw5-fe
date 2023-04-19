@@ -1,9 +1,9 @@
-import axios from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { FormEvent, useState } from "react";
 import { Button, Form, Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -14,12 +14,20 @@ const LoginPage = () => {
   const handleSubmit = async (e: FormEvent) => {
     try {
       e.preventDefault();
-      const { data } = await axios.post("http://localhost:3001/users/session", {
-        //need to move the endpoint to .env
-        email,
-        password,
-      });
-      toast("Login successful! 💪", { autoClose: 1000 });
+      const response = await axios
+        .post("http://localhost:3001/users/session", {
+          //need to move the endpoint to .env
+          email,
+          password,
+        })
+        .catch((err: Error | AxiosError) => {
+          if (axios.isAxiosError(err)) {
+            // Access to config, request, and response
+          } else {
+            // Just a stock error
+          }
+        });
+      const { data } = response as AxiosResponse;
       console.log(data);
       localStorage.setItem("accessToken", data.accessToken);
       navigate("/app"); //once successfully login then will directs to homepage
@@ -30,8 +38,8 @@ const LoginPage = () => {
 
   return (
     <>
-      <Container>
-        <Row className="justify-content-center my-5">
+      <Container style={{ height: "100vh" }}>
+        <Row className="justify-content-center align-items-center h-100">
           <Col col="9" md="6">
             <img
               src="https://img.icons8.com/clouds/512/whatsapp.png"
@@ -43,7 +51,7 @@ const LoginPage = () => {
             <h2> Welcome to FakesApp!! </h2>
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>Email address / Username</Form.Label>
+                <Form.Label>Email address</Form.Label>
                 <Form.Control
                   type="email"
                   placeholder="Enter email"
@@ -63,14 +71,14 @@ const LoginPage = () => {
                 <Button
                   variant="primary"
                   type="submit"
-                  style={{ width: "47%" }}
+                  style={{ width: "49%" }}
                 >
                   Login
                 </Button>
                 <Link
                   to={"/register"}
                   className="btn btn-secondary"
-                  style={{ width: "47%" }}
+                  style={{ width: "49%" }}
                 >
                   Sign Up
                 </Link>
@@ -85,6 +93,7 @@ const LoginPage = () => {
                   backgroundColor: "#55acee",
                   color: "#fff",
                   fontSize: "1.2rem",
+                  fontWeight: "600",
                 }}
               >
                 <svg
