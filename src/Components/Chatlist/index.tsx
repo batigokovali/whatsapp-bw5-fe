@@ -9,7 +9,6 @@ import { TbMessage } from "react-icons/tb";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import { Chat } from "../Chat";
-import { useAppDispatch } from "../../store/store";
 
 export const Chatlist = () => {
   return (

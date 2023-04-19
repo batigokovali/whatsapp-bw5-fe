@@ -1,13 +1,15 @@
 import { Row, Col } from "react-bootstrap";
 import "./styles.css";
-import { useAppDispatch } from "../../store/store";
-import { fetchUsers } from "../../store/features/storeSlice";
+// import { useAppDispatch } from "../../redux/store";
+// import fetchUsers from "../../redux/reducers/storeSlice";
 
 export const Chat = () => {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
   return (
-    <Row onClick={() => dispatch(fetchUsers)}>
+    <Row
+    // onClick={() => dispatch(fetchUsers)}
+    >
       <Col
         xs={3}
         md={3}

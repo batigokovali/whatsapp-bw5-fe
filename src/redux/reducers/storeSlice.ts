@@ -1,6 +1,7 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { fetchUsers, sendMessage } from "../actions/actions"
 
-
+//interfaces
 export interface User {
     _id: string
     name: string
@@ -11,7 +12,7 @@ export interface User {
 export interface Message {
     sender: User;
     content: {
-        text?: string;
+        text: string;
         media?: string;
     };
     timestamp: number;
@@ -37,6 +38,8 @@ export interface Store {
     }
 }
 
+// createSlice/reducers
+
 export const initialState: Store = {
     userInfo: {
         _id: "",
@@ -50,36 +53,8 @@ export const initialState: Store = {
     }
 }
 
-export const fetchUsers = createAsyncThunk("user/fetch", async (thunkAPI) => {
-    try {
-        const response = await fetch("http://localhost:3001", {
-            method: "GET"
-        });
-        const data = response.json();
-        return data;
-    } catch (error) {
-        console.log(error)
-    }
-})
 
-export const sendMessage = createAsyncThunk("user/save", async (message: object, thunkAPI) => {
-    try {
-        const response = await fetch("http://localhost:3001", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                message
-            })
-        })
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.log(error)
-    }
 
-})
 
 export const StoreSlice = createSlice({
     name: "store",
@@ -105,17 +80,13 @@ export const StoreSlice = createSlice({
             chat?.history.push(action.payload.message); //appends the message to the history of the chat with _id equal to chatId
         },
     },
-    extraReducers: (builder) => {
-        builder.addCase(fetchUsers.fulfilled, (state, action) => {
-            state.chats = action.payload;
-            state.userInfo = action.payload;
+    extraReducers:(builder)=>{
+        builder.addCase(fetchUsers.fulfilled,(state,action)=>{
+            state.chats=action.payload;
+            state.userInfo=action.payload;
         })
-        builder.addCase(sendMessage.fulfilled, (state, action) => {
+        builder.addCase(sendMessage.fulfilled,(state,action)=>{
             state.chats.list.push(action.payload)
         })
     }
 })
-
-export default StoreSlice.reducer;
-export const { setUserInfo, setChats, setActiveChat, setHistory, newMessage } =
-    StoreSlice.actions;
