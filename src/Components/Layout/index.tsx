@@ -12,11 +12,17 @@ export const Layout = () => {
 
     useEffect(()=>{
         socket.on("userConnected",()=>{
-     socket.on("disconnect",()=>{
-        console.log("disconnected")
-     })
+     
+     
         })
-    })
+        socket.on('disconnect', () => {
+            console.log('Disconnected from socket');
+          })
+
+        return () => {
+            socket.disconnect();
+          }
+    },[])
     return (
         <Container fluid className="layout">
             <Row>
