@@ -16,18 +16,28 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
 export const Messaging = () => {
   const socket = io("http://localhost:3001", { transports: ["websocket"] });
   let userInfo = useAppSelector((state) => state.store.userInfo);
-
-  // const [username, setUsername] = useState("");
-  // const [message, setMessage] = useState("");
-  // const [onlineUsers, setOnlineUsers] = useState<User[]>([]);
-  // const [loggedIn, setLoggedIn] = useState(false);
-  // const [chatHistory, setChatHistory] = useState<any[]>([]);
-  // const [userID, setUserID] = useState("");
-  // const [currentID, setCurrentID] = useState("");
+  const [chatHistory, setChatHistory] = useState<any[]>([]);
+  const [username, setUsername] = useState("");
+  const [message, setMessage] = useState("");
+  const [userID, setUserID] = useState("");
 
   useEffect(() => {
-    socket.on("userConnected", () => {
-      socket.emit("setUser", localStorage.getItem("accessToken"));
+    socket.on("welcome", (welcomeMessage) => {
+      setUserID(welcomeMessage.message);
+      setUsername(userInfo.name);
+      console.log(localStorage.getItem("accessToken"));
+      console.log(welcomeMessage);
+      socket.emit("setUser", {
+        token: localStorage.getItem("accessToken"),
+      });
+      socket.on("outgoing-msg", ({ message: newMessage }) => {
+        console.log(newMessage);
+        setChatHistory((chatHistory) => [...chatHistory, newMessage.message]);
+      });
+    });
+    socket.on("incoming-msg", (newMessage) => {
+      console.log(newMessage);
+      setChatHistory((chatHistory) => [...chatHistory, newMessage.message]);
     });
     socket.on("disconnect", () => {
       console.log("Disconnected from socket");
@@ -37,39 +47,19 @@ export const Messaging = () => {
     };
   }, []);
 
-  // useEffect(() => {
-  //   socket.on("Welcome", (welcomeMessage) => {
-  //     console.log(welcomeMessage);
-  //     setCurrentID(welcomeMessage.message);
-  //     socket.on("loggedIn", (onlineUsersList) => {
-  //       console.log(onlineUsersList);
-  //       setOnlineUsers(onlineUsersList);
-  //       setLoggedIn(true);
-  //       setUserID(onlineUsersList[onlineUsersList.length - 1].socketId);
-  //     });
-  //     socket.on("updateOnlineUsersList", (updatedList) => {
-  //       setOnlineUsers(updatedList);
-  //     });
-  //     socket.on("newMessage", (newMessage) => {
-  //       console.log(newMessage);
-  //       setChatHistory((chatHistory) => [...chatHistory, newMessage.message]);
-  //     });
-  //   });
-  // }, []);
-
-  // console.log("User ID is:", currentID);
-  // console.log(chatHistory);
-
-  // const sendMessage = () => {
-  //   const newMessage = {
-  //     sender: username,
-  //     text: message,
-  //     createdAt: new Date().toLocaleString("en-gb"),
-  //     socketID: userID,
-  //   };
-  //   socket.emit("sendMessage", { message: newMessage });
-  //   setChatHistory([...chatHistory, newMessage]);
-  // };
+  const sendMessage = () => {
+    const newMessage = {
+      sender: username,
+      text: message,
+      createdAt: new Date().toLocaleString("en-gb"),
+      socketID: userID,
+    };
+    socket.emit("outgoing-msg", {
+      recipients: ["oT5OPsLtV6jcZwmwAAJr"],
+      message: newMessage,
+    });
+    setChatHistory([...chatHistory, newMessage]);
+  };
 
   return (
     <>
@@ -137,9 +127,16 @@ export const Messaging = () => {
               aria-label="Username"
               aria-describedby="basic-addon1"
               className="message-input"
+              onChange={(e) => setMessage(e.target.value)}
             />
           </InputGroup>
-          <AiOutlineSend className="mx-4" />
+          <AiOutlineSend
+            className="mx-4"
+            onClick={(e) => {
+              e.preventDefault();
+              sendMessage();
+            }}
+          />
         </div>
       </Container>
     </>
