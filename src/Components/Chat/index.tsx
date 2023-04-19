@@ -13,25 +13,26 @@ export const Chat = () => {
   }, []);
 
   let users = useAppSelector((state) => state.store.users);
-  console.log(users);
+  let userInfo = useAppSelector((state) => state.store.userInfo); //to prevent messaging the user himself/herself
+
   return (
     <>
       {users?.map((user) => (
-        <Row key={user._id} className="mb-2 chat-row w-100">
+        <Row key={user?._id} className="mb-2 chat-row w-100">
           <Col
             xs={3}
             md={3}
             lg={3}
             className="d-flex align-items-center justify-content-center"
           >
-            <img src={user.avatar} alt="" className="chat-avatar" />
+            <img src={user?.avatar} alt="" className="chat-avatar" />
           </Col>
           <Col>
             <Row>
-              <p className="chat-title mb-0">{user.name}</p>
+              <p className="chat-title mb-0">{user?.name}</p>
             </Row>
             <Row>
-              <p className="chat-message mb-0">{user.email}</p>
+              <p className="chat-message mb-0">{user?.email}</p>
             </Row>
           </Col>
         </Row>
