@@ -3,9 +3,17 @@ import "./styles.css"
 
 import { Chatlist } from "../Chatlist";
 import { Messaging } from "../Messaging";
-
-
+import { useEffect } from "react";
+import { io } from "socket.io-client";
 export const Layout = () => {
+
+    const socket = io("http://localhost:3001", { transports: ['websocket'] }) 
+
+    useEffect(()=>{
+        socket.emit("userConnected",()=>{
+     console.log("connected")
+        })
+    })
     return (
         <Container fluid className="layout">
             <Row>
