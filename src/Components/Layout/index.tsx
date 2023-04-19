@@ -3,22 +3,8 @@ import "./styles.css";
 import { Chatlist } from "../Chatlist";
 import { Messaging } from "../Messaging";
 import { useEffect } from "react";
-import { io } from "socket.io-client";
-import { disconnect } from "process";
 
 export const Layout = () => {
-  const socket = io("http://localhost:3001", { transports: ["websocket"] });
-
-  useEffect(() => {
-    socket.on("userConnected", () => {});
-    socket.on("disconnect", () => {
-      console.log("Disconnected from socket");
-    });
-
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
   useEffect(() => {
     document.title = "Whatsapp | Messages";
   }, []);

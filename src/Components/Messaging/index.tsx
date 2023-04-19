@@ -8,8 +8,69 @@ import { VscSmiley } from "react-icons/vsc";
 import { ImAttachment } from "react-icons/im";
 import { AiOutlineSend } from "react-icons/ai";
 import React, { useRef, useState, useEffect } from "react";
+import { io } from "socket.io-client";
+import { disconnect } from "process";
+import { Message, User } from "../../redux/reducers/storeSlice";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
 
 export const Messaging = () => {
+  const socket = io("http://localhost:3001", { transports: ["websocket"] });
+  let userInfo = useAppSelector((state) => state.store.userInfo);
+
+  // const [username, setUsername] = useState("");
+  // const [message, setMessage] = useState("");
+  // const [onlineUsers, setOnlineUsers] = useState<User[]>([]);
+  // const [loggedIn, setLoggedIn] = useState(false);
+  // const [chatHistory, setChatHistory] = useState<any[]>([]);
+  // const [userID, setUserID] = useState("");
+  // const [currentID, setCurrentID] = useState("");
+
+  useEffect(() => {
+    socket.on("userConnected", () => {
+      socket.emit("setUser", localStorage.getItem("accessToken"));
+    });
+    socket.on("disconnect", () => {
+      console.log("Disconnected from socket");
+    });
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+  // useEffect(() => {
+  //   socket.on("Welcome", (welcomeMessage) => {
+  //     console.log(welcomeMessage);
+  //     setCurrentID(welcomeMessage.message);
+  //     socket.on("loggedIn", (onlineUsersList) => {
+  //       console.log(onlineUsersList);
+  //       setOnlineUsers(onlineUsersList);
+  //       setLoggedIn(true);
+  //       setUserID(onlineUsersList[onlineUsersList.length - 1].socketId);
+  //     });
+  //     socket.on("updateOnlineUsersList", (updatedList) => {
+  //       setOnlineUsers(updatedList);
+  //     });
+  //     socket.on("newMessage", (newMessage) => {
+  //       console.log(newMessage);
+  //       setChatHistory((chatHistory) => [...chatHistory, newMessage.message]);
+  //     });
+  //   });
+  // }, []);
+
+  // console.log("User ID is:", currentID);
+  // console.log(chatHistory);
+
+  // const sendMessage = () => {
+  //   const newMessage = {
+  //     sender: username,
+  //     text: message,
+  //     createdAt: new Date().toLocaleString("en-gb"),
+  //     socketID: userID,
+  //   };
+  //   socket.emit("sendMessage", { message: newMessage });
+  //   setChatHistory([...chatHistory, newMessage]);
+  // };
+
   return (
     <>
       <Container fluid>
