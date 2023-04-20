@@ -7,27 +7,18 @@ import { RxDividerVertical } from "react-icons/rx";
 import { VscSmiley } from "react-icons/vsc";
 import { ImAttachment } from "react-icons/im";
 import { AiOutlineSend } from "react-icons/ai";
-import React, { useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { io } from "socket.io-client";
-import { disconnect } from "process";
-import { Message, User } from "../../redux/reducers/storeSlice";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
+import { useAppSelector } from "../../redux/hooks/hooks";
 
 export const Messaging = () => {
   const socket = io("http://localhost:3001", { transports: ["websocket"] });
   const userInfo = useAppSelector((state) => state.store.userInfo._id);
   const roomID = useAppSelector((state) => state.store.chats.active);
   const [chatHistory, setChatHistory] = useState<any[]>([]);
-  const [username, setUsername] = useState("");
   const [messageSend, setMessage] = useState("");
-  const [userID, setUserID] = useState("");
 
   useEffect(() => {
-    // socket.on("welcome", (welcomeMessage) => {
-    //   setUserID(welcomeMessage.message);
-    //   setUsername(userInfo.name);
-    //   console.log(welcomeMessage);
-    // });
     socket.emit("setUser", {
       token: localStorage.getItem("accessToken"),
     });
@@ -49,7 +40,6 @@ export const Messaging = () => {
       sender: userInfo,
       content: { text: messageSend },
       createdAt: new Date().toLocaleString("en-gb"),
-      socketID: userID,
     };
     socket.emit("outgoing-msg", { room: roomID, message: newMessage });
     setChatHistory([...chatHistory, newMessage.content.text]);

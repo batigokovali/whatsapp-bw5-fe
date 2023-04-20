@@ -7,7 +7,6 @@ import { User } from "../../redux/reducers/storeSlice";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { createRoom } from "../../redux/actions/actions";
 import { io } from "socket.io-client";
-import { useSelector } from "react-redux";
 
 export const Chat = () => {
   const socket = io("http://localhost:3001", { transports: ["websocket"] });
