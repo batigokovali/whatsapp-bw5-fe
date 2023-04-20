@@ -133,7 +133,6 @@ export const createRoom = (recipient: string) => {
         body: JSON.stringify({ recipient }),
       });
       const data = await response.json();
-      console.log(data);
       dispatch({
         type: StoreSlice.actions.setActiveChat,
         payload: data._id,

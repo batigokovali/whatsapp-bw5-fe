@@ -42,6 +42,8 @@ export const Chat = () => {
     });
   };
 
+  console.log(chats);
+
   return (
     <>
       {chats?.map((chat) => (
