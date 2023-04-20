@@ -97,53 +97,27 @@ export const editUserAvatar = (file: any) => {
   };
 };
 
-export const sendMessage = createAsyncThunk(
-  "user/save",
-  async (message: object, thunkAPI) => {
+//Create 1-1 room
+export const createRoom = (recipient: string) => {
+  return async (dispatch: Dispatch) => {
     try {
-      const response = await fetch("http://localhost:3001", {
+      const response = await fetch("http://localhost:3001/chats", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
-        body: JSON.stringify({
-          message,
-        }),
+        body: JSON.stringify({ recipient }),
       });
       const data = await response.json();
-      return data;
-    } catch (error) {
-      console.log(error);
-    }
-  }
-);
-
-export const fetchChat = createAsyncThunk(
-  "user/fetchChat",
-  async (thunkAPI) => {
-    try {
-      const response = await fetch("http://localhost:3001", {
-        method: "GET",
+      console.log(data);
+      dispatch({
+        type: StoreSlice.actions.setActiveChat,
+        payload: data._id,
       });
-      const data = response.json();
       return data;
     } catch (error) {
       console.log(error);
     }
-  }
-);
-
-export const fetchHistory = createAsyncThunk(
-  "user/fetchHistory",
-  async (chatId: string, thunkAPI) => {
-    try {
-      const response = await fetch("http://localhost:3001", {
-        method: "GET",
-      });
-      const data = response.json();
-      return data;
-    } catch (error) {
-      console.log(error);
-    }
-  }
-);
+  };
+};
