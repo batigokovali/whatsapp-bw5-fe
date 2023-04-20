@@ -4,21 +4,37 @@ import { fetchUsers } from "../../redux/actions/actions";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
 import React, { useRef, useState, useEffect } from "react";
 import { User } from "../../redux/reducers/storeSlice";
+import { createRoom } from "../../redux/actions/actions";
+import { io } from "socket.io-client";
+import { useSelector } from "react-redux";
 
 export const Chat = () => {
+  const socket = io("http://localhost:3001", { transports: ["websocket"] });
   const dispatch = useAppDispatch();
+
+  const room = useAppSelector((state) => state.store.chats.active);
+  let users = useAppSelector((state) => state.store.users);
 
   useEffect(() => {
     dispatch(fetchUsers());
   }, []);
 
-  let users = useAppSelector((state) => state.store.users);
-  let userInfo = useAppSelector((state) => state.store.userInfo); //to prevent messaging the user himself/herself
+  const join = async (id: string) => {
+    await dispatch(createRoom(id));
+    console.log(id);
+    socket.emit("join-room", {
+      room,
+    });
+  };
 
   return (
     <>
       {users?.map((user) => (
-        <Row key={user?._id} className="mb-2 chat-row w-100">
+        <Row
+          key={user?._id}
+          className="mb-2 chat-row w-100"
+          onClick={() => join(user._id)}
+        >
           <Col
             xs={3}
             md={3}
