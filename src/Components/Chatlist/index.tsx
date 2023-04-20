@@ -15,21 +15,29 @@ import {
   fetchUsers,
 } from "../../redux/actions/actions";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { editUserInfo } from "../../redux/actions/actions";
-import { Event } from "ws";
-import { EventType } from "@testing-library/react";
+import { createRoom } from "../../redux/actions/actions";
+import { io } from "socket.io-client";
 
 export const Chatlist = () => {
+  const socket = io("http://localhost:3001", { transports: ["websocket"] });
   let userInfo = useAppSelector((state) => state.store.userInfo);
   let users = useAppSelector((state) => state.store.users);
+  const room = useAppSelector((state) => state.store.chats.active);
   console.log(users);
 
   const [show, setShow] = useState(false);
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const [show2, setShow2] = useState(false);
+  const handleClose2 = () => setShow2(false);
+  const handleShow2 = () => setShow2(true);
+
   const dispatch = useAppDispatch();
   const [fullName, setFullName] = useState(userInfo.name);
   const [email, setEmail] = useState(userInfo.email);
@@ -44,9 +52,15 @@ export const Chatlist = () => {
 
   useEffect(() => {
     dispatch(fetchUserInfo());
+    dispatch(fetchUsers());
   }, []);
 
-  console.log(fullName, email);
+  const join = async (id: string) => {
+    await dispatch(createRoom(id));
+    socket.emit("join-room", {
+      room,
+    });
+  };
 
   const editUser = () => {
     const info = {
@@ -72,7 +86,7 @@ export const Chatlist = () => {
             />
           </Col>
           <Col className="d-flex justify-content-around align-items-center">
-            <BsFillPeopleFill />
+            <BsFillPeopleFill onClick={handleShow2} />
             <BsThreeDotsVertical />
             <TbMessage />
           </Col>
@@ -104,6 +118,7 @@ export const Chatlist = () => {
           <Chat />
         </Row>
       </Container>
+      {/* modal for editing profile */}
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton className="bg-dark">
           <Modal.Title>Edit Profile</Modal.Title>
@@ -149,6 +164,35 @@ export const Chatlist = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+      {/* modal for editing profile */}
+      {/* modal for user list */}
+      <Modal show={show2} onHide={handleClose2}>
+        <Modal.Header closeButton className="bg-dark">
+          <Modal.Title>Start a Chat!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="bg-dark">
+          {users?.map((user) => (
+            <Row
+              key={user?._id}
+              className="mb-2 chat-row w-100"
+              onClick={() => join(user._id)}
+            >
+              <Col
+                xs={3}
+                md={3}
+                lg={3}
+                className="d-flex align-items-center justify-content-center"
+              >
+                <img src={user.avatar} alt="" className="chat-avatar" />
+              </Col>
+              <Col>
+                <p>{user.name}</p>
+              </Col>
+            </Row>
+          ))}
+        </Modal.Body>
+      </Modal>
+      {/* modal for user list */}
     </>
   );
 };
