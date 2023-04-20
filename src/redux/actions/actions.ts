@@ -18,7 +18,7 @@ export const fetchUsers = () => {
           type: StoreSlice.actions.setUsers,
           payload: data,
         });
-      else console.log(data.message);
+      else alert(data.message);
       return data;
     } catch (error) {
       console.log(error);
