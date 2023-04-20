@@ -8,6 +8,11 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { createRoom } from "../../redux/actions/actions";
 import { io } from "socket.io-client";
 
+export const findReceipent = (membersArray: User[], userID: string) => {
+  const receipent = membersArray.find((m) => m._id !== userID);
+  return receipent;
+};
+
 export const Chat = () => {
   const socket = io("http://localhost:3001", { transports: ["websocket"] });
   const dispatch = useAppDispatch();
@@ -17,12 +22,7 @@ export const Chat = () => {
 
   const chats = useAppSelector((state) => state.store.chats.list);
   const room = useAppSelector((state) => state.store.chats.active);
-  const userId = useAppSelector((state) => state.store.userInfo._id);
-
-  const findReceipent = (membersArray: User[]) => {
-    const receipent = membersArray.find((m) => m._id !== userId);
-    return receipent;
-  };
+  const userID = useAppSelector((state) => state.store.userInfo._id);
 
   useEffect(() => {
     const googleAccessToken = params.get("accessToken");
@@ -41,13 +41,15 @@ export const Chat = () => {
     });
   };
 
+  console.log(chats);
+
   return (
     <>
       {chats?.map((chat) => (
         <Row
           key={chat?._id}
           className="mb-2 chat-row w-100"
-          onClick={() => join(findReceipent(chat.members)!._id)}
+          onClick={() => join(findReceipent(chat.members, userID)!._id)}
         >
           <Col
             xs={3}
@@ -56,7 +58,7 @@ export const Chat = () => {
             className="d-flex align-items-center justify-content-center"
           >
             <img
-              src={findReceipent(chat.members)?.avatar}
+              src={findReceipent(chat.members, userID)?.avatar}
               alt=""
               className="chat-avatar"
             />
@@ -64,7 +66,7 @@ export const Chat = () => {
           <Col>
             <Row>
               <p className="chat-title mb-0">
-                {findReceipent(chat.members)?.name}
+                {findReceipent(chat.members, userID)?.name}
               </p>
             </Row>
             <Row>
