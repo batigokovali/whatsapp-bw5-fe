@@ -2,22 +2,31 @@ import { Row, Col } from "react-bootstrap";
 import "./styles.css";
 import { fetchUsers } from "../../redux/actions/actions";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
-import React, { useRef, useState, useEffect } from "react";
+import { useEffect } from "react";
 import { User } from "../../redux/reducers/storeSlice";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 export const Chat = () => {
   const dispatch = useAppDispatch();
+  // eslint-disable-next-line
+  const [params, _] = useSearchParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
+    const googleAccessToken = params.get("accessToken");
+    if (googleAccessToken) {
+      localStorage.setItem("accessToken", googleAccessToken);
+      navigate("/app");
+    }
     dispatch(fetchUsers());
+    // eslint-disable-next-line
   }, []);
 
-  let users = useAppSelector((state) => state.store.users);
-  let userInfo = useAppSelector((state) => state.store.userInfo); //to prevent messaging the user himself/herself
+  let users: User[] = useAppSelector((state) => state.store.users);
 
   return (
     <>
-      {users?.map((user) => (
+      {users.map((user) => (
         <Row key={user?._id} className="mb-2 chat-row w-100">
           <Col
             xs={3}

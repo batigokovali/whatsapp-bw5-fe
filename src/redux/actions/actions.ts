@@ -13,10 +13,12 @@ export const fetchUsers = () => {
         },
       });
       const data = await response.json();
-      dispatch({
-        type: StoreSlice.actions.setUsers,
-        payload: data,
-      });
+      if (!data.message)
+        dispatch({
+          type: StoreSlice.actions.setUsers,
+          payload: data,
+        });
+      else console.log(data.message);
       return data;
     } catch (error) {
       console.log(error);
