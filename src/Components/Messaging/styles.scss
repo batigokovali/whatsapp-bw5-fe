@@ -25,12 +25,34 @@
 .chat-section {
   background-image: url("https://i.redd.it/ts7vuoswhwf41.jpg");
   height: 86vh;
+  overflow-y: scroll;
 }
 
 .chat-input {
   color: white;
   background-color: rgb(39, 39, 39);
   font-size: 22px;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 .message-input {
