@@ -97,6 +97,29 @@ export const editUserAvatar = (file: any) => {
   };
 };
 
+//Fetches all the chats
+export const fetchChats = () => {
+  return async (dispatch: Dispatch) => {
+    try {
+      const response = await fetch("http://localhost:3001/chats", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
+      const data = await response.json();
+      if (!data.message)
+        dispatch({
+          type: StoreSlice.actions.setChats,
+          payload: data,
+        });
+      else alert(data.message);
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
 //Create 1-1 room
 export const createRoom = (recipient: string) => {
   return async (dispatch: Dispatch) => {

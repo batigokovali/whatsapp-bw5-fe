@@ -22,7 +22,7 @@ export interface Chat {
   members: User[];
   messages: Message[];
   history: Message[];
-  chatId: string;
+  _id: string;
 }
 
 export interface Store {
@@ -76,7 +76,7 @@ export const StoreSlice = createSlice({
       action: PayloadAction<{ chatId: string; history: Message[] }>
     ) => {
       const chat = state.chats.list.find(
-        (chat) => chat.chatId === action.payload.chatId
+        (chat) => chat._id === action.payload.chatId
       );
       if (chat) {
         chat.history = action.payload.history;
@@ -87,7 +87,7 @@ export const StoreSlice = createSlice({
       action: PayloadAction<{ chatId: string; message: Message }>
     ) => {
       const chat = state.chats.list.find(
-        (chat) => chat.chatId === action.payload.chatId
+        (chat) => chat._id === action.payload.chatId
       );
       chat?.history.push(action.payload.message); //appends the message to the history of the chat with _id equal to chatId
     },
