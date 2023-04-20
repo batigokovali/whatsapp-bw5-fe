@@ -5,12 +5,19 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
 import { useEffect } from "react";
 import { User } from "../../redux/reducers/storeSlice";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { createRoom } from "../../redux/actions/actions";
+import { io } from "socket.io-client";
+import { useSelector } from "react-redux";
 
 export const Chat = () => {
+  const socket = io("http://localhost:3001", { transports: ["websocket"] });
   const dispatch = useAppDispatch();
   // eslint-disable-next-line
   const [params, _] = useSearchParams();
   const navigate = useNavigate();
+
+  const room = useAppSelector((state) => state.store.chats.active);
+  let users = useAppSelector((state) => state.store.users);
 
   useEffect(() => {
     const googleAccessToken = params.get("accessToken");
@@ -22,12 +29,22 @@ export const Chat = () => {
     // eslint-disable-next-line
   }, []);
 
-  let users: User[] = useAppSelector((state) => state.store.users);
+  const join = async (id: string) => {
+    await dispatch(createRoom(id));
+    console.log(id);
+    socket.emit("join-room", {
+      room,
+    });
+  };
 
   return (
     <>
-      {users.map((user) => (
-        <Row key={user?._id} className="mb-2 chat-row w-100">
+      {users?.map((user) => (
+        <Row
+          key={user?._id}
+          className="mb-2 chat-row w-100"
+          onClick={() => join(user._id)}
+        >
           <Col
             xs={3}
             md={3}
