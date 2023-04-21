@@ -22,8 +22,9 @@ import { editUserInfo } from "../../redux/actions/actions";
 import { createRoom } from "../../redux/actions/actions";
 import { io } from "socket.io-client";
 
+const socket = io("http://localhost:3001", { transports: ["websocket"] });
+
 export const Chatlist = () => {
-  const socket = io("http://localhost:3001", { transports: ["websocket"] });
   let userInfo = useAppSelector((state) => state.store.userInfo);
   let users = useAppSelector((state) => state.store.users);
   const room = useAppSelector((state) => state.store.chats.active);

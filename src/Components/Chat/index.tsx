@@ -8,13 +8,14 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { createRoom } from "../../redux/actions/actions";
 import { io } from "socket.io-client";
 
+const socket = io("http://localhost:3001", { transports: ["websocket"] });
+
 export const findReceipent = (membersArray: User[], userID: string) => {
   const receipent = membersArray.find((m) => m._id !== userID);
   return receipent;
 };
 
 export const Chat = () => {
-  const socket = io("http://localhost:3001", { transports: ["websocket"] });
   const dispatch = useAppDispatch();
   // eslint-disable-next-line
   const [params, _] = useSearchParams();

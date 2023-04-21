@@ -14,8 +14,9 @@ import { Chat, Message, User } from "../../redux/reducers/storeSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks/hooks";
 import { findReceipent } from "../Chat";
 
+const socket = io("http://localhost:3001", { transports: ["websocket"] });
+
 export const Messaging = () => {
-  const socket = io("http://localhost:3001", { transports: ["websocket"] });
   const userInfo = useAppSelector((state) => state.store.userInfo);
   const roomID = useAppSelector((state) => state.store.chats.active);
   const [chatHistory, setChatHistory] = useState<any[]>([]);
