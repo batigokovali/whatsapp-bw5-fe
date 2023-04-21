@@ -45,20 +45,26 @@ export const Messaging = () => {
 
   console.log(chatDetails);
 
+  setInterval(fetchActiveChat, 2500);
+
   useEffect(() => {
-    socket.emit("setUser", {
-      token: localStorage.getItem("accessToken"),
+    socket.on("welcome", (welcomeMessage) => {
+      console.log(welcomeMessage);
+      socket.emit("setUser", {
+        token: localStorage.getItem("accessToken"),
+      });
+      socket.on("incoming-msg", (newMessage) => {
+        setChatHistory((chatHistory) => [...chatHistory, newMessage.message]);
+      });
+      socket.on("disconnect", () => {
+        console.log("Disconnected from socket");
+      });
+      fetchActiveChat();
+      return () => {
+        socket.disconnect();
+      };
     });
-    socket.on("incoming-msg", (newMessage) => {
-      setChatHistory((chatHistory) => [...chatHistory, newMessage.message]);
-    });
-    socket.on("disconnect", () => {
-      console.log("Disconnected from socket");
-    });
-    fetchActiveChat();
-    return () => {
-      socket.disconnect();
-    };
+
     // eslint-disable-next-line
   }, [activeChatID]);
 
@@ -72,6 +78,7 @@ export const Messaging = () => {
     socket.emit("outgoing-msg", { room: roomID, message: newMessage });
     setChatHistory([...chatHistory, newMessage.content.text]);
     fetchActiveChat();
+    setMessage("");
   }
 
   return (
@@ -258,6 +265,7 @@ export const Messaging = () => {
                   aria-label="Username"
                   aria-describedby="basic-addon1"
                   className="message-input"
+                  value={messageSend}
                   onChange={(e) => setMessage(e.target.value)}
                 />
               </InputGroup>
