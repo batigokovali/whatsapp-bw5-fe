@@ -45,7 +45,7 @@ export const Messaging = () => {
 
   console.log(chatDetails);
 
-  setInterval(fetchActiveChat, 2500);
+  setInterval(fetchActiveChat, 4000);
 
   useEffect(() => {
     socket.on("welcome", (welcomeMessage) => {
