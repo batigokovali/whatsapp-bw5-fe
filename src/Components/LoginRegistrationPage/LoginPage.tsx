@@ -57,7 +57,7 @@ const LoginPage = () => {
             />
           </Col>
           <Col md={5}>
-            <h2> Welcome to FakesApp!! </h2>
+            <h2>WhatsApp</h2>
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Email address</Form.Label>
