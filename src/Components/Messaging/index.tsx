@@ -71,6 +71,7 @@ export const Messaging = () => {
     };
     socket.emit("outgoing-msg", { room: roomID, message: newMessage });
     setChatHistory([...chatHistory, newMessage.content.text]);
+    fetchActiveChat();
   }
 
   return (
